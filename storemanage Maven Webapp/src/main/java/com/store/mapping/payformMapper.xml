@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.payformMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.payform" >
+    <id column="t_payformid" property="tPayformid" jdbcType="VARCHAR" />
+    <result column="t_pfpurchaseid" property="tPfpurchaseid" jdbcType="VARCHAR" />
+    <result column="t_pftotal" property="tPftotal" jdbcType="VARCHAR" />
+    <result column="t_pftime" property="tPftime" jdbcType="TIMESTAMP" />
+    <result column="t_pffinish" property="tPffinish" jdbcType="TIMESTAMP" />
+    <result column="t_pfstate" property="tPfstate" jdbcType="VARCHAR" />
+    <result column="t_pfuserid" property="tPfuserid" jdbcType="VARCHAR" />
+    <result column="t_pfsureid" property="tPfsureid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_payformid, t_pfpurchaseid, t_pftotal, t_pftime, t_pffinish, t_pfstate, t_pfuserid, 
+    t_pfsureid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_payform
+    where t_payformid = #{tPayformid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_payform
+    where t_payformid = #{tPayformid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.payform" >
+    insert into t_payform (t_payformid, t_pfpurchaseid, t_pftotal, 
+      t_pftime, t_pffinish, t_pfstate, 
+      t_pfuserid, t_pfsureid)
+    values (#{tPayformid,jdbcType=VARCHAR}, #{tPfpurchaseid,jdbcType=VARCHAR}, #{tPftotal,jdbcType=VARCHAR}, 
+      #{tPftime,jdbcType=TIMESTAMP}, #{tPffinish,jdbcType=TIMESTAMP}, #{tPfstate,jdbcType=VARCHAR}, 
+      #{tPfuserid,jdbcType=VARCHAR}, #{tPfsureid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.payform" >
+    insert into t_payform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tPayformid != null" >
+        t_payformid,
+      </if>
+      <if test="tPfpurchaseid != null" >
+        t_pfpurchaseid,
+      </if>
+      <if test="tPftotal != null" >
+        t_pftotal,
+      </if>
+      <if test="tPftime != null" >
+        t_pftime,
+      </if>
+      <if test="tPffinish != null" >
+        t_pffinish,
+      </if>
+      <if test="tPfstate != null" >
+        t_pfstate,
+      </if>
+      <if test="tPfuserid != null" >
+        t_pfuserid,
+      </if>
+      <if test="tPfsureid != null" >
+        t_pfsureid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tPayformid != null" >
+        #{tPayformid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPfpurchaseid != null" >
+        #{tPfpurchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPftotal != null" >
+        #{tPftotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tPftime != null" >
+        #{tPftime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPffinish != null" >
+        #{tPffinish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPfstate != null" >
+        #{tPfstate,jdbcType=VARCHAR},
+      </if>
+      <if test="tPfuserid != null" >
+        #{tPfuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPfsureid != null" >
+        #{tPfsureid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.payform" >
+    update t_payform
+    <set >
+      <if test="tPfpurchaseid != null" >
+        t_pfpurchaseid = #{tPfpurchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPftotal != null" >
+        t_pftotal = #{tPftotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tPftime != null" >
+        t_pftime = #{tPftime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPffinish != null" >
+        t_pffinish = #{tPffinish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPfstate != null" >
+        t_pfstate = #{tPfstate,jdbcType=VARCHAR},
+      </if>
+      <if test="tPfuserid != null" >
+        t_pfuserid = #{tPfuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPfsureid != null" >
+        t_pfsureid = #{tPfsureid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_payformid = #{tPayformid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.payform" >
+    update t_payform
+    set t_pfpurchaseid = #{tPfpurchaseid,jdbcType=VARCHAR},
+      t_pftotal = #{tPftotal,jdbcType=VARCHAR},
+      t_pftime = #{tPftime,jdbcType=TIMESTAMP},
+      t_pffinish = #{tPffinish,jdbcType=TIMESTAMP},
+      t_pfstate = #{tPfstate,jdbcType=VARCHAR},
+      t_pfuserid = #{tPfuserid,jdbcType=VARCHAR},
+      t_pfsureid = #{tPfsureid,jdbcType=VARCHAR}
+    where t_payformid = #{tPayformid,jdbcType=VARCHAR}
+  </update>
+</mapper>

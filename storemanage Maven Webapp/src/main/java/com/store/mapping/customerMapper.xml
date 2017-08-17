@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.customerMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.customer" >
+    <id column="t_customerid" property="tCustomerid" jdbcType="VARCHAR" />
+    <result column="t_customername" property="tCustomername" jdbcType="VARCHAR" />
+    <result column="t_customeraddress" property="tCustomeraddress" jdbcType="VARCHAR" />
+    <result column="t_managerid" property="tManagerid" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="queryListMap" type="com.store.model.customer" >
+    <id column="t_customerid" property="tCustomerid" jdbcType="VARCHAR" />
+    <result column="t_customername" property="tCustomername" jdbcType="VARCHAR" />
+    <result column="t_customeraddress" property="tCustomeraddress" jdbcType="VARCHAR" />
+    <result column="t_managerid" property="tManagerid" jdbcType="VARCHAR" />
+  	<collection property="custctacts" ofType="com.store.model.custctact">
+  	<result column="t_ccid" property="tCcid" jdbcType="VARCHAR" />
+    <result column="t_ccname" property="tCcname" jdbcType="VARCHAR" />
+    <result column="t_ccadddress" property="tCcadddress" jdbcType="VARCHAR" />
+    <result column="t_ccmail" property="tCcmail" jdbcType="VARCHAR" />
+    <result column="t_ccphone" property="tCcphone" jdbcType="VARCHAR" />
+    <result column="t_custid" property="tCustid" jdbcType="VARCHAR" />
+    <result column="t_ccmanagerid" property="tCcmanagerid" jdbcType="VARCHAR" />
+  	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_customerid, t_customername, t_customeraddress, t_managerid
+  </sql>
+  <sql id="Base_Column_List2" >
+    u.t_customerid, u.t_customername, u.t_customeraddress, u.t_managerid,s.t_ccid, s.t_ccname, s.t_ccadddress, s.t_ccmail, s.t_ccphone, s.t_custid, s.t_ccmanagerid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer
+    where t_customerid = #{tCustomerid,jdbcType=VARCHAR}
+  </select>
+    <select id="queryforlistByPrimaryKey" resultMap="queryListMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_customer u Left Join t_custcontact s on u.t_customerid=s.t_custid
+    where 1=1
+    <if test="tCustomerid!=null">
+    and u.t_customerid = #{tCustomerid,jdbcType=VARCHAR}
+    </if>
+    <if test="tManagerid!=null">
+    and u.t_Managerid=#{tManagerid,jdbcType=VARCHAR}
+    </if>
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_customer
+    where t_customerid = #{tCustomerid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.customer" >
+    insert into t_customer (t_customerid, t_customername, t_customeraddress, 
+      t_managerid)
+    values (#{tCustomerid,jdbcType=VARCHAR}, #{tCustomername,jdbcType=VARCHAR}, #{tCustomeraddress,jdbcType=VARCHAR}, 
+      #{tManagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.customer" >
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tCustomerid != null" >
+        t_customerid,
+      </if>
+      <if test="tCustomername != null" >
+        t_customername,
+      </if>
+      <if test="tCustomeraddress != null" >
+        t_customeraddress,
+      </if>
+      <if test="tManagerid != null" >
+        t_managerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tCustomerid != null" >
+        #{tCustomerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustomername != null" >
+        #{tCustomername,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustomeraddress != null" >
+        #{tCustomeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagerid != null" >
+        #{tManagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.customer" >
+    update t_customer
+    <set >
+      <if test="tCustomername != null" >
+        t_customername = #{tCustomername,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustomeraddress != null" >
+        t_customeraddress = #{tCustomeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagerid != null" >
+        t_managerid = #{tManagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_customerid = #{tCustomerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.customer" >
+    update t_customer
+    set t_customername = #{tCustomername,jdbcType=VARCHAR},
+      t_customeraddress = #{tCustomeraddress,jdbcType=VARCHAR},
+      t_managerid = #{tManagerid,jdbcType=VARCHAR}
+    where t_customerid = #{tCustomerid,jdbcType=VARCHAR}
+  </update>
+</mapper>

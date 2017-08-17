@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.userMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.user" >
+    <id column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_username" property="tUsername" jdbcType="VARCHAR" />
+    <result column="t_usefirm" property="tUsefirm" jdbcType="VARCHAR" />
+    <result column="t_usermail" property="tUsermail" jdbcType="VARCHAR" />
+    <result column="t_useraccount" property="tUseraccount" jdbcType="VARCHAR" />
+    <result column="t_userpw" property="tUserpw" jdbcType="VARCHAR" />
+    <result column="t_userjob" property="tUserjob" jdbcType="VARCHAR" />
+    <result column="t_userphone" property="tUserphone" jdbcType="VARCHAR" />
+    <result column="t_usermanager" property="tUsermanager" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.store.model.user" id="queryListMap">
+  <id column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_username" property="tUsername" jdbcType="VARCHAR" />
+    <result column="t_usefirm" property="tUsefirm" jdbcType="VARCHAR" />
+    <result column="t_usermail" property="tUsermail" jdbcType="VARCHAR" />
+    <result column="t_useraccount" property="tUseraccount" jdbcType="VARCHAR" />
+    <result column="t_userpw" property="tUserpw" jdbcType="VARCHAR" />
+    <result column="t_userjob" property="tUserjob" jdbcType="VARCHAR" />
+    <result column="t_userphone" property="tUserphone" jdbcType="VARCHAR" />
+    <result column="t_usermanager" property="tUsermanager" jdbcType="VARCHAR" />
+  	<collection property="sales" ofType="com.store.model.sale" >
+  		<result column="t_saleid" property="tSaleid" jdbcType="VARCHAR" />
+    	<result column="t_custid" property="tCustid" jdbcType="VARCHAR" />
+   	 	<result column="t_saledate" property="tSaledate" jdbcType="TIMESTAMP" />
+   	 	<result column="t_deliverdate" property="tDeliverdate" jdbcType="TIMESTAMP" />
+    	<result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    	<result column="t_saleaddress" property="tSaleaddress" jdbcType="VARCHAR" />
+    	<result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+  	</collection>
+  	<collection property="purchases" ofType="com.store.model.purchase" >
+  		<result column="t_purchaseid" property="tPurchaseid" jdbcType="VARCHAR" />
+    	<result column="t_mfrid" property="tMfrid" jdbcType="VARCHAR" />
+   	 	<result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    	<result column="t_pcmanagerid" property="tPcmanagerid" jdbcType="VARCHAR" />
+    	<result column="t_pcdate" property="tPcdate" jdbcType="TIMESTAMP" />
+    	<result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    	<result column="t_pcaddress" property="tPcaddress" jdbcType="VARCHAR" />
+    	<result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+  	</collection>
+  	
+  </resultMap>
+  <resultMap type="com.store.model.user" id="querypayrcp">
+  	<collection property="receipts" ofType="com.store.model.receipt" >
+  		<id column="t_receiptid" property="tReceiptid" jdbcType="VARCHAR" />
+   		<result column="t_rcpsaleid" property="tRcpsaleid" jdbcType="VARCHAR" />
+    	<result column="t_rcptotal" property="tRcptotal" jdbcType="VARCHAR" />
+    	<result column="t_rcptime" property="tRcptime" jdbcType="TIMESTAMP" />
+    	<result column="t_rcpfinish" property="tRcpfinish" jdbcType="TIMESTAMP" />
+    	<result column="t_rcpstate" property="tRcpstate" jdbcType="VARCHAR" />
+    	<result column="t_rcpuserid" property="tRcpuserid" jdbcType="VARCHAR" />
+    	<result column="t_rcpsureid" property="tRcpsureid" jdbcType="VARCHAR" />
+  	</collection>
+  	<collection property="payforms" ofType="com.store.model.payform" >
+  		<id column="t_payformid" property="tPayformid" jdbcType="VARCHAR" />
+    	<result column="t_pfpurchaseid" property="tPfpurchaseid" jdbcType="VARCHAR" />
+    	<result column="t_pftotal" property="tPftotal" jdbcType="VARCHAR" />
+    	<result column="t_pftime" property="tPftime" jdbcType="TIMESTAMP" />
+    	<result column="t_pffinish" property="tPffinish" jdbcType="TIMESTAMP" />
+    	<result column="t_pfstate" property="tPfstate" jdbcType="VARCHAR" />
+    	<result column="t_pfuserid" property="tPfuserid" jdbcType="VARCHAR" />
+    	<result column="t_pfsureid" property="tPfsureid" jdbcType="VARCHAR" />
+  	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_userid, t_username, t_usefirm, t_usermail, t_useraccount, t_userpw, t_userjob, t_userphone, t_usermanager
+  </sql>
+   <sql id="Base_Column_List2" >
+    u.t_userid, u.t_username, u.t_usefirm, u.t_usermail, u.t_useraccount, u.t_userpw, u.t_userjob, 
+    u.t_userphone, u.t_usermanager,s.t_saleid,s.t_custid,s.t_saledate,s.t_deliverdate,s.t_arrivaldate,s.t_saleaddress,
+    s.t_contacthuman,e.t_purchaseid, e.t_mfrid, e.t_userid, e.t_pcmanagerid, e.t_pcdate, e.t_arrivaldate, e.t_pcaddress, 
+    e.t_contacthuman
+  </sql>
+  <sql id="Base_Column_List3" >
+    u.t_receiptid, u.t_rcpsaleid, u.t_rcptotal, u.t_rcptime, u.t_rcpfinish, u.t_rcpstate, u.t_rcpuserid, 
+    u.t_rcpsureid, s.t_payformid, s.t_pfpurchaseid, s.t_pftotal, s.t_pftime, s.t_pffinish, s.t_pfstate, s.t_pfuserid, 
+    s.t_pfsureid
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where t_userid = #{tUserid,jdbcType=VARCHAR}
+  </select>
+   <select id="LoginCheckByPrimaryKey" resultMap="BaseResultMap" parameterType="com.store.model.user" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user where t_useraccount=#{tUseraccount,jdbcType=VARCHAR} and t_userpw=#{tUserpw,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryforlistByPrimaryKey" resultMap="queryListMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_user u Left Join t_sale s on u.t_userid=s.t_userid left Join t_purchase e on u.t_userid=e.t_userid
+    where u.t_userid = #{tUserid,jdbcType=VARCHAR}
+  </select>
+  <select id="queryrcppaylist" resultMap="querypayrcp" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List3" />
+    from t_receipt u,t_payform s where u.t_rcpuserid = #{tUserid,jdbcType=VARCHAR},u.t_pfuserid=#{tUserid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_user
+    where t_userid = #{tUserid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.user" >
+    insert into t_user (t_userid, t_username, t_usefirm, 
+      t_usermail, t_useraccount, t_userpw, 
+      t_userjob, t_userphone, t_usermanager
+      )
+    values (#{tUserid,jdbcType=VARCHAR}, #{tUsername,jdbcType=VARCHAR}, #{tUsefirm,jdbcType=VARCHAR}, 
+      #{tUsermail,jdbcType=VARCHAR}, #{tUseraccount,jdbcType=VARCHAR}, #{tUserpw,jdbcType=VARCHAR}, 
+      #{tUserjob,jdbcType=VARCHAR}, #{tUserphone,jdbcType=VARCHAR}, #{tUsermanager,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.user" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tUserid != null" >
+        t_userid,
+      </if>
+      <if test="tUsername != null" >
+        t_username,
+      </if>
+      <if test="tUsefirm != null" >
+        t_usefirm,
+      </if>
+      <if test="tUsermail != null" >
+        t_usermail,
+      </if>
+      <if test="tUseraccount != null" >
+        t_useraccount,
+      </if>
+      <if test="tUserpw != null" >
+        t_userpw,
+      </if>
+      <if test="tUserjob != null" >
+        t_userjob,
+      </if>
+      <if test="tUserphone != null" >
+        t_userphone,
+      </if>
+      <if test="tUsermanager != null" >
+        t_usermanager,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tUserid != null" >
+        #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsername != null" >
+        #{tUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsefirm != null" >
+        #{tUsefirm,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsermail != null" >
+        #{tUsermail,jdbcType=VARCHAR},
+      </if>
+      <if test="tUseraccount != null" >
+        #{tUseraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserpw != null" >
+        #{tUserpw,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserjob != null" >
+        #{tUserjob,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserphone != null" >
+        #{tUserphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsermanager != null" >
+        #{tUsermanager,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.user" >
+    update t_user
+    <set >
+      <if test="tUsername != null" >
+        t_username = #{tUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsefirm != null" >
+        t_usefirm = #{tUsefirm,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsermail != null" >
+        t_usermail = #{tUsermail,jdbcType=VARCHAR},
+      </if>
+      <if test="tUseraccount != null" >
+        t_useraccount = #{tUseraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserpw != null" >
+        t_userpw = #{tUserpw,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserjob != null" >
+        t_userjob = #{tUserjob,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserphone != null" >
+        t_userphone = #{tUserphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tUsermanager != null" >
+        t_usermanager = #{tUsermanager,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_userid = #{tUserid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.user" >
+    update t_user
+    set t_username = #{tUsername,jdbcType=VARCHAR},
+      t_usefirm = #{tUsefirm,jdbcType=VARCHAR},
+      t_usermail = #{tUsermail,jdbcType=VARCHAR},
+      t_useraccount = #{tUseraccount,jdbcType=VARCHAR},
+      t_userpw = #{tUserpw,jdbcType=VARCHAR},
+      t_userjob = #{tUserjob,jdbcType=VARCHAR},
+      t_userphone = #{tUserphone,jdbcType=VARCHAR},
+      t_usermanager = #{tUsermanager,jdbcType=VARCHAR}
+    where t_userid = #{tUserid,jdbcType=VARCHAR}
+  </update>
+  
+  
+</mapper>

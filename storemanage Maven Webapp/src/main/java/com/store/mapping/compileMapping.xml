@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.compileMapping" >
+  <resultMap id="saledata" type="com.store.model.compiledata" >
+    <id column="t_price" property="price" jdbcType="VARCHAR" />
+    <result column="t_qut" property="qut" jdbcType="VARCHAR" />
+    <result column="t_time" property="tUserid" jdbcType="VARCHAR" />
+   </resultMap>
+   <resultMap id="receiptdata" type="com.store.model.compiledata" >
+    <id column="t_price" property="price" jdbcType="VARCHAR" />
+    <result column="t_qut" property="qut" jdbcType="VARCHAR" />
+    <result column="t_time" property="tUserid" jdbcType="VARCHAR" />
+   </resultMap>
+   <resultMap id="payformdata" type="com.store.model.compiledata" >
+    <id column="t_price" property="price" jdbcType="VARCHAR" />
+    <result column="t_qut" property="qut" jdbcType="VARCHAR" />
+    <result column="t_time" property="tUserid" jdbcType="VARCHAR" />
+   </resultMap>
+   
+  <select id="queryreportsaledatabyweek" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_salequt*t_saleprice) as t_price,week(t_saledate) as t_time,sum(t_salequt) as t_qut from t_saledetail u left join t_sale s on u.t_slid=s.t_saleid 
+    where s.t_slmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_saledate&lt;=#{endtime} and s.t_saledate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_saledate),week(s.t_saledate)
+  </select>
+  <select id="queryreportsaledatabymonth" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_salequt*t_saleprice) as t_price,MONTH(t_saledate) as t_time,sum(t_salequt) as t_qut from t_saledetail u left join t_sale s on u.t_slid=s.t_saleid 
+    where s.t_slmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_saledate&lt;=#{endtime} and s.t_saledate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_saledate),MONTH(s.t_saledate)
+  </select>
+  <select id="queryreportsaledatabyday" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_salequt*t_saleprice) as t_price,DAYOFYEAR(t_saledate) as t_time,sum(t_salequt) as t_qut from t_saledetail u left join t_sale s on u.t_slid=s.t_saleid 
+    where s.t_slmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_saledate&lt;=#{endtime} and s.t_saledate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_saledate),DAYOFYEAR(s.t_saledate)
+  </select>
+  <select id="queryreportpurchasedatabyday" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_purchasequt*t_purchaseprice) as t_price,DAYOFYEAR(t_purchasedate) as t_time,sum(t_purchasequt) as t_qut from t_purchasedetail u left join t_purchase s on u.t_pcpurchaseid=s.t_purchaseid 
+    where s.t_pcdtmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_purchasedate&lt;=#{endtime} and s.t_purchasedate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_purchasedate),DAYOFYEAR(s.t_purchasedate)
+  </select>
+  <select id="queryreportpurchasedatabyweek" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_purchasequt*t_purchaseprice) as t_price,WEEK(t_purchasedate) as t_time,sum(t_purchasequt) as t_qut from t_purchasedetail u left join t_purchase s on u.t_pcpurchaseid=s.t_purchaseid 
+    where s.t_pcdtmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_purchasedate&lt;=#{endtime} and s.t_purchasedate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_purchasedate),WEEK(s.t_purchasedate)
+  </select>
+  <select id="queryreportpurchasedatabymonth" resultMap="saledata" parameterType="java.util.Map" >
+    select sum(t_purchasequt*t_purchaseprice) as t_price,MONTH(t_pcdate) as t_time,sum(t_purchasequt) as t_qut from t_purchasedetail u left join t_purchase s on u.t_pcpurchaseid=s.t_purchaseid 
+    where s.t_pcdtmanagerid=#{tManagerid} 
+    <if test="starttime!=null and endtime!=null">
+    and s.t_pcdate&lt;=#{endtime} and s.t_pcdate&gt;=#{starttime}
+    </if>
+    group by YEAR(s.t_t_pcdate),MONTH(s.t_pcdate)
+  </select>
+  
+  <update id="updateprototalqut" parameterType="java.lang.String">
+	update `t_product` u set  u.t_propctotal=(select sum(t_purchasequt) from t_purchasedetail e left join t_purchase s on s.t_purchaseid=e.t_pcdtpurchaseid where u.t_proid=t_pcdetailproid and u.t_promanagerid=#{tManagerid} and s.t_arrivaldate >'1999-00-00 00:00:00');
+  </update>
+  <update id="updateproremainqut" parameterType="java.lang.String">
+	update `t_product` u set  u.t_proqut=((select sum(t_purchasequt) from t_purchasedetail e left join t_purchase s on s.t_purchaseid=e.t_pcdtpurchaseid where u.t_proid=e.t_pcdetailproid and u.t_promanagerid=#{tManagerid} and s.t_arrivaldate >'1999-00-00 00:00:00')
+	- (select sum(t_salequt) from t_saledetail a left join t_sale b on b.t_saleid=a.t_slid where u.t_proid=a.t_productid and u.t_promanagerid=#{tManagerid} and b.t_arrivaldate >'1999-00-00 00:00:00'));
+  </update>
+  
+  <update id="updatereceiptbymanangerid" parameterType="java.lang.String">
+	update t_receipt u set u.t_rcptotal=(select sum(s.t_saleprice*s.t_salequt) from t_saledetail s left join t_sale e on s.t_slid=e.t_saleid where s.t_sldtmanagerid=#{tManagerid} and u.t_rcpsaleid=e.t_saleid);
+  </update>
+  <update id="updatereceiptbysaleid" parameterType="java.util.Map">
+	update t_receipt u set u.t_rcptotal=(select sum(s.t_saleprice*s.t_salequt) from t_saledetail s left join t_sale e on s.t_slid=e.t_saleid where s.t_sldtmanagerid=#{tManagerid} and t_rcpsaleid=#{tSaleid} and u.t_rcpsaleid=e.t_saleid);
+  </update>
+  <update id="updatepayformbymanagerid" parameterType="java.lang.String">
+	update t_payform u set u.t_pftotal=(select sum(s.t_pcdetailprice*s.t_purchasequt) from t_purchasedetail s left join t_purchase e on s.t_pcdtpurchaseid=e.t_purchaseid where s.t_pcdtmanagerid=#{tManagerid} and t_pfpurchaseid=#{tPurchaseid} and u.t_pfpurchaseid=e.t_purchaseid);
+  </update>
+  <update id="updatepayformbypurchaseid" parameterType="java.util.Map">
+	update t_payform u set u.t_pftotal=(select sum(s.t_pcdetailprice*s.t_purchasequt) from t_purchasedetail s left join t_purchase e on s.t_pcdtpurchaseid=e.t_purchaseid where s.t_pcdtmanagerid=#{tManagerid} and t_pfpurchaseid=#{tPurchaseid} and  u.t_pfpurchaseid=e.t_purchaseid);
+  </update>
+</mapper>

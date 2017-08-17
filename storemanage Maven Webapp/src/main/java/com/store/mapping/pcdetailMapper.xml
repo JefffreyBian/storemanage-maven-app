@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.pcdetailMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.pcdetail" >
+    <id column="t_pcdetailid" property="tPcdetailid" jdbcType="VARCHAR" />
+    <result column="t_pcdetailproid" property="tPcdetailproid" jdbcType="VARCHAR" />
+    <result column="t_purchasequt" property="tPurchasequt" jdbcType="INTEGER" />
+    <result column="t_pcdetailprice" property="tPcdetailprice" jdbcType="INTEGER" />
+    <result column="t_pcdtmanagerid" property="tPcdtmanagerid" jdbcType="VARCHAR" />
+  	<result	column="t_pcdtpurchaseid" property="tPcdtpurchaseid" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_pcdetailid, t_pcdetailproid, t_purchasequt, t_pcdetailprice, t_pcdtmanagerid,t_pcdtpurchaseid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_purchasedetail
+    where t_pcdetailid = #{tPcdetailid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_purchasedetail
+    where t_pcdetailid = #{tPcdetailid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.pcdetail" >
+    insert into t_purchasedetail (t_pcdetailid, t_pcdetailproid, t_purchasequt, 
+      t_pcdetailprice, t_pcdtmanagerid)
+    values (#{tPcdetailid,jdbcType=VARCHAR}, #{tPcdetailproid,jdbcType=VARCHAR}, #{tPurchasequt,jdbcType=INTEGER}, 
+      #{tPcdetailprice,jdbcType=INTEGER}, #{tPcdtmanagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.pcdetail" >
+    insert into t_purchasedetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tPcdetailid != null" >
+        t_pcdetailid,
+      </if>
+      <if test="tPcdetailproid != null" >
+        t_pcdetailproid,
+      </if>
+      <if test="tPurchasequt != null" >
+        t_purchasequt,
+      </if>
+      <if test="tPcdetailprice != null" >
+        t_pcdetailprice,
+      </if>
+      <if test="tPcdtmanagerid != null" >
+        t_pcdtmanagerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tPcdetailid != null" >
+        #{tPcdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcdetailproid != null" >
+        #{tPcdetailproid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPurchasequt != null" >
+        #{tPurchasequt,jdbcType=INTEGER},
+      </if>
+      <if test="tPcdetailprice != null" >
+        #{tPcdetailprice,jdbcType=INTEGER},
+      </if>
+      <if test="tPcdtmanagerid != null" >
+        #{tPcdtmanagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.pcdetail" >
+    update t_purchasedetail
+    <set >
+      <if test="tPcdetailproid != null" >
+        t_pcdetailproid = #{tPcdetailproid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPurchasequt != null" >
+        t_purchasequt = #{tPurchasequt,jdbcType=INTEGER},
+      </if>
+      <if test="tPcdetailprice != null" >
+        t_pcdetailprice = #{tPcdetailprice,jdbcType=INTEGER},
+      </if>
+      <if test="tPcdtmanagerid != null" >
+        t_pcdtmanagerid = #{tPcdtmanagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_pcdetailid = #{tPcdetailid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.pcdetail" >
+    update t_purchasedetail
+    set t_pcdetailproid = #{tPcdetailproid,jdbcType=VARCHAR},
+      t_purchasequt = #{tPurchasequt,jdbcType=INTEGER},
+      t_pcdetailprice = #{tPcdetailprice,jdbcType=INTEGER},
+      t_pcdtmanagerid = #{tPcdtmanagerid,jdbcType=VARCHAR}
+    where t_pcdetailid = #{tPcdetailid,jdbcType=VARCHAR}
+  </update>
+</mapper>

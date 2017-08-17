@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.custctactMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.custctact" >
+    <id column="t_ccid" property="tCcid" jdbcType="VARCHAR" />
+    <result column="t_ccname" property="tCcname" jdbcType="VARCHAR" />
+    <result column="t_ccadddress" property="tCcadddress" jdbcType="VARCHAR" />
+    <result column="t_ccmail" property="tCcmail" jdbcType="VARCHAR" />
+    <result column="t_ccphone" property="tCcphone" jdbcType="VARCHAR" />
+    <result column="t_custid" property="tCustid" jdbcType="VARCHAR" />
+    <result column="t_ccmanagerid" property="tCcmanagerid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_ccid, t_ccname, t_ccadddress, t_ccmail, t_ccphone, t_custid, t_ccmanagerid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_custcontact
+    where t_ccid = #{tCcid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_custcontact
+    where t_ccid = #{tCcid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.custctact" >
+    insert into t_custcontact (t_ccid, t_ccname, t_ccadddress, 
+      t_ccmail, t_ccphone, t_custid, 
+      t_ccmanagerid)
+    values (#{tCcid,jdbcType=VARCHAR}, #{tCcname,jdbcType=VARCHAR}, #{tCcadddress,jdbcType=VARCHAR}, 
+      #{tCcmail,jdbcType=VARCHAR}, #{tCcphone,jdbcType=VARCHAR}, #{tCustid,jdbcType=VARCHAR}, 
+      #{tCcmanagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.custctact" >
+    insert into t_custcontact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tCcid != null" >
+        t_ccid,
+      </if>
+      <if test="tCcname != null" >
+        t_ccname,
+      </if>
+      <if test="tCcadddress != null" >
+        t_ccadddress,
+      </if>
+      <if test="tCcmail != null" >
+        t_ccmail,
+      </if>
+      <if test="tCcphone != null" >
+        t_ccphone,
+      </if>
+      <if test="tCustid != null" >
+        t_custid,
+      </if>
+      <if test="tCcmanagerid != null" >
+        t_ccmanagerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tCcid != null" >
+        #{tCcid,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcname != null" >
+        #{tCcname,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcadddress != null" >
+        #{tCcadddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcmail != null" >
+        #{tCcmail,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcphone != null" >
+        #{tCcphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustid != null" >
+        #{tCustid,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcmanagerid != null" >
+        #{tCcmanagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.custctact" >
+    update t_custcontact
+    <set >
+      <if test="tCcname != null" >
+        t_ccname = #{tCcname,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcadddress != null" >
+        t_ccadddress = #{tCcadddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcmail != null" >
+        t_ccmail = #{tCcmail,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcphone != null" >
+        t_ccphone = #{tCcphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustid != null" >
+        t_custid = #{tCustid,jdbcType=VARCHAR},
+      </if>
+      <if test="tCcmanagerid != null" >
+        t_ccmanagerid = #{tCcmanagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_ccid = #{tCcid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.custctact" >
+    update t_custcontact
+    set t_ccname = #{tCcname,jdbcType=VARCHAR},
+      t_ccadddress = #{tCcadddress,jdbcType=VARCHAR},
+      t_ccmail = #{tCcmail,jdbcType=VARCHAR},
+      t_ccphone = #{tCcphone,jdbcType=VARCHAR},
+      t_custid = #{tCustid,jdbcType=VARCHAR},
+      t_ccmanagerid = #{tCcmanagerid,jdbcType=VARCHAR}
+    where t_ccid = #{tCcid,jdbcType=VARCHAR}
+  </update>
+</mapper>

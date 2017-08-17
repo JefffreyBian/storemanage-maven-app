@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.saledetailMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.saledetail" >
+    <id column="t_saleid" property="tSaleid" jdbcType="VARCHAR" />
+    <result column="t_productid" property="tProductid" jdbcType="VARCHAR" />
+    <result column="t_salequt" property="tSalequt" jdbcType="VARCHAR" />
+    <result column="t_saleprice" property="tSaleprice" jdbcType="VARCHAR" />
+    <result column="t_sldtmanagerid" property="tSldtmanagerid" jdbcType="VARCHAR" />
+  	<result column="t_slid" property="tSlid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_saleid, t_productid, t_salequt, t_saleprice, t_sldtmanagerid,t_slid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_saledetail
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_saledetail
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.saledetail" >
+    insert into t_saledetail (t_saleid, t_productid, t_salequt, 
+      t_saleprice, t_sldtmanagerid)
+    values (#{tSaleid,jdbcType=VARCHAR}, #{tProductid,jdbcType=VARCHAR}, #{tSalequt,jdbcType=VARCHAR}, 
+      #{tSaleprice,jdbcType=VARCHAR}, #{tSldtmanagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.saledetail" >
+    insert into t_saledetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tSaleid != null" >
+        t_saleid,
+      </if>
+      <if test="tProductid != null" >
+        t_productid,
+      </if>
+      <if test="tSalequt != null" >
+        t_salequt,
+      </if>
+      <if test="tSaleprice != null" >
+        t_saleprice,
+      </if>
+      <if test="tSldtmanagerid != null" >
+        t_sldtmanagerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tSaleid != null" >
+        #{tSaleid,jdbcType=VARCHAR},
+      </if>
+      <if test="tProductid != null" >
+        #{tProductid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSalequt != null" >
+        #{tSalequt,jdbcType=VARCHAR},
+      </if>
+      <if test="tSaleprice != null" >
+        #{tSaleprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tSldtmanagerid != null" >
+        #{tSldtmanagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.saledetail" >
+    update t_saledetail
+    <set >
+      <if test="tProductid != null" >
+        t_productid = #{tProductid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSalequt != null" >
+        t_salequt = #{tSalequt,jdbcType=VARCHAR},
+      </if>
+      <if test="tSaleprice != null" >
+        t_saleprice = #{tSaleprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tSldtmanagerid != null" >
+        t_sldtmanagerid = #{tSldtmanagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.saledetail" >
+    update t_saledetail
+    set t_productid = #{tProductid,jdbcType=VARCHAR},
+      t_salequt = #{tSalequt,jdbcType=VARCHAR},
+      t_saleprice = #{tSaleprice,jdbcType=VARCHAR},
+      t_sldtmanagerid = #{tSldtmanagerid,jdbcType=VARCHAR}
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </update>
+</mapper>

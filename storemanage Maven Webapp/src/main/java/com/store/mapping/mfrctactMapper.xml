@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.mfrctactMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.mfrctact" >
+    <id column="t_mfrcontactid" property="tMfrcontactid" jdbcType="VARCHAR" />
+    <result column="t_mfrcontactname" property="tMfrcontactname" jdbcType="VARCHAR" />
+    <result column="t_mfrcontactaddress" property="tMfrcontactaddress" jdbcType="VARCHAR" />
+    <result column="t_mfrcontactmail" property="tMfrcontactmail" jdbcType="VARCHAR" />
+    <result column="t_mfrcontactphone" property="tMfrcontactphone" jdbcType="VARCHAR" />
+    <result column="t_mfrid" property="tMfrid" jdbcType="VARCHAR" />
+    <result column="t_mfrcmanagerid" property="tMfrcmanagerid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_mfrcontactid, t_mfrcontactname, t_mfrcontactaddress, t_mfrcontactmail, t_mfrcontactphone, 
+    t_mfrid, t_mfrcmanagerid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_mfrcontact
+    where t_mfrcontactid = #{tMfrcontactid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_mfrcontact
+    where t_mfrcontactid = #{tMfrcontactid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.mfrctact" >
+    insert into t_mfrcontact (t_mfrcontactid, t_mfrcontactname, t_mfrcontactaddress, 
+      t_mfrcontactmail, t_mfrcontactphone, t_mfrid, 
+      t_mfrcontact, t_mfrcmanagerid)
+    values (#{tMfrcontactid,jdbcType=VARCHAR}, #{tMfrcontactname,jdbcType=VARCHAR}, #{tMfrcontactaddress,jdbcType=VARCHAR}, 
+      #{tMfrcontactmail,jdbcType=VARCHAR}, #{tMfrcontactphone,jdbcType=VARCHAR}, #{tMfrid,jdbcType=VARCHAR}, 
+      #{tMfrcontact,jdbcType=VARCHAR}, #{tMfrcmanagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.mfrctact" >
+    insert into t_mfrcontact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tMfrcontactid != null" >
+        t_mfrcontactid,
+      </if>
+      <if test="tMfrcontactname != null" >
+        t_mfrcontactname,
+      </if>
+      <if test="tMfrcontactaddress != null" >
+        t_mfrcontactaddress,
+      </if>
+      <if test="tMfrcontactmail != null" >
+        t_mfrcontactmail,
+      </if>
+      <if test="tMfrcontactphone != null" >
+        t_mfrcontactphone,
+      </if>
+      <if test="tMfrid != null" >
+        t_mfrid,
+      </if>
+      <if test="tMfrcontact != null" >
+        t_mfrcontact,
+      </if>
+      <if test="tMfrcmanagerid != null" >
+        t_mfrcmanagerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tMfrcontactid != null" >
+        #{tMfrcontactid,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactname != null" >
+        #{tMfrcontactname,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactaddress != null" >
+        #{tMfrcontactaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactmail != null" >
+        #{tMfrcontactmail,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactphone != null" >
+        #{tMfrcontactphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrid != null" >
+        #{tMfrid,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontact != null" >
+        #{tMfrcontact,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcmanagerid != null" >
+        #{tMfrcmanagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.mfrctact" >
+    update t_mfrcontact
+    <set >
+      <if test="tMfrcontactname != null" >
+        t_mfrcontactname = #{tMfrcontactname,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactaddress != null" >
+        t_mfrcontactaddress = #{tMfrcontactaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactmail != null" >
+        t_mfrcontactmail = #{tMfrcontactmail,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontactphone != null" >
+        t_mfrcontactphone = #{tMfrcontactphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrid != null" >
+        t_mfrid = #{tMfrid,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcontact != null" >
+        t_mfrcontact = #{tMfrcontact,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrcmanagerid != null" >
+        t_mfrcmanagerid = #{tMfrcmanagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_mfrcontactid = #{tMfrcontactid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.mfrctact" >
+    update t_mfrcontact
+    set t_mfrcontactname = #{tMfrcontactname,jdbcType=VARCHAR},
+      t_mfrcontactaddress = #{tMfrcontactaddress,jdbcType=VARCHAR},
+      t_mfrcontactmail = #{tMfrcontactmail,jdbcType=VARCHAR},
+      t_mfrcontactphone = #{tMfrcontactphone,jdbcType=VARCHAR},
+      t_mfrid = #{tMfrid,jdbcType=VARCHAR},
+      t_mfrcontact = #{tMfrcontact,jdbcType=VARCHAR},
+      t_mfrcmanagerid = #{tMfrcmanagerid,jdbcType=VARCHAR}
+    where t_mfrcontactid = #{tMfrcontactid,jdbcType=VARCHAR}
+  </update>
+</mapper>

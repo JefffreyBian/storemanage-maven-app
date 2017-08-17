@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.saleMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.sale" >
+    <id column="t_saleid" property="tSaleid" jdbcType="VARCHAR" />
+    <result column="t_custid" property="tCustid" jdbcType="VARCHAR" />
+    <result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_slmanagerid" property="tSlmanagerid" jdbcType="VARCHAR" />
+    <result column="t_saledate" property="tSaledate" jdbcType="TIMESTAMP" />
+    <result column="t_deliverdate" property="tDeliverdate" jdbcType="TIMESTAMP" />
+    <result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    <result column="t_saleaddress" property="tSaleaddress" jdbcType="VARCHAR" />
+    <result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="queryListMap" type="com.store.model.sale" >
+    <id column="t_saleid" property="tSaleid" jdbcType="VARCHAR" />
+    <result column="t_custid" property="tCustid" jdbcType="VARCHAR" />
+    <result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_slmanagerid" property="tSlmanagerid" jdbcType="VARCHAR" />
+    <result column="t_saledate" property="tSaledate" jdbcType="TIMESTAMP" />
+    <result column="t_deliverdate" property="tDeliverdate" jdbcType="TIMESTAMP" />
+    <result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    <result column="t_saleaddress" property="tSaleaddress" jdbcType="VARCHAR" />
+    <result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+    <collection property="receipt" ofType="com.store.model.receipt">
+    <result column="t_receiptid" property="tReceiptid" jdbcType="VARCHAR" />
+    <result column="t_rcpsaleid" property="tRcpsaleid" jdbcType="VARCHAR" />
+    <result column="t_rcptotal" property="tRcptotal" jdbcType="VARCHAR" />
+    <result column="t_rcptime" property="tRcptime" jdbcType="TIMESTAMP" />
+    <result column="t_rcpfinish" property="tRcpfinish" jdbcType="TIMESTAMP" />
+    <result column="t_rcpstate" property="tRcpstate" jdbcType="VARCHAR" />
+    <result column="t_rcpuserid" property="tRcpuserid" jdbcType="VARCHAR" />
+    <result column="t_rcpsureid" property="tRcpsureid" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="saledetails" ofType="com.store.model.saledetail">
+   	<result column="t_saleid" property="tSaleid" jdbcType="VARCHAR" />
+    <result column="t_productid" property="tProductid" jdbcType="VARCHAR" />
+    <result column="t_salequt" property="tSalequt" jdbcType="VARCHAR" />
+    <result column="t_saleprice" property="tSaleprice" jdbcType="VARCHAR" />
+    <result column="t_sldtmanagerid" property="tSldtmanagerid" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t_saleid, t_custid, t_userid, t_slmanagerid, t_saledate, t_deliverdate, t_arrivaldate, 
+    t_saleaddress, t_contacthuman
+  </sql>
+  
+   <sql id="Base_Column_List2" >
+    u.t_saleid, u.t_custid, u.t_userid, u.t_slmanagerid, u.t_saledate, u.t_deliverdate, u.t_arrivaldate, 
+    u.t_saleaddress, u.t_contacthuman,s.t_saleid, s.t_productid, s.t_salequt, s.t_saleprice, s.t_sldtmanagerid,s.t_slid   
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sale
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </select>
+  <select id="queryforlistByPrimaryKey" resultMap="queryListMap" parameterType="com.store.model.sale" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_sale u Left Join t_saledetail s on u.t_saleid=s.t_slid where 1=1
+    <if test="tUserid!=null">
+     and u.t_userid = #{tUserid,jdbcType=VARCHAR}
+    </if>
+     <if test="tSaleid!=null">
+     and u.t_saleid = #{tSaleid,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="querylistbytime" resultMap="queryListMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_sale u Left Join t_saledetail s on u.t_saleid=s.t_slid
+	where 1=1
+    	<if test="starttime!=null and !starttime.equals('') and endtime!=null and !endtime.equals('') "> 
+    	and u.t_saledate &gt;=#{starttime,jdbcType=VARCHAR} and  u.t_saledate&lt;=#{endtime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="tCustid != null" >
+        and t_custid = #{tCustid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        and t_userid = #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSlmanagerid != null" >
+        and t_slmanagerid = #{tSlmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSaledate != null" >
+        and t_saledate = #{tSaledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tDeliverdate != null" >
+        and t_deliverdate = #{tDeliverdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        and t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tSaleaddress != null" >
+        and t_saleaddress = #{tSaleaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        and t_contacthuman = #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+    </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_sale
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.sale" >
+    insert into t_sale (t_saleid, t_custid, t_userid, 
+      t_slmanagerid, t_saledate, t_deliverdate, 
+      t_arrivaldate, t_saleaddress, t_contacthuman
+      )
+    values (#{tSaleid,jdbcType=VARCHAR}, #{tCustid,jdbcType=VARCHAR}, #{tUserid,jdbcType=VARCHAR}, 
+      #{tSlmanagerid,jdbcType=VARCHAR}, #{tSaledate,jdbcType=TIMESTAMP}, #{tDeliverdate,jdbcType=TIMESTAMP}, 
+      #{tArrivaldate,jdbcType=TIMESTAMP}, #{tSaleaddress,jdbcType=VARCHAR}, #{tContacthuman,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.sale" >
+    insert into t_sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tSaleid != null" >
+        t_saleid,
+      </if>
+      <if test="tCustid != null" >
+        t_custid,
+      </if>
+      <if test="tUserid != null" >
+        t_userid,
+      </if>
+      <if test="tSlmanagerid != null" >
+        t_slmanagerid,
+      </if>
+      <if test="tSaledate != null" >
+        t_saledate,
+      </if>
+      <if test="tDeliverdate != null" >
+        t_deliverdate,
+      </if>
+      <if test="tArrivaldate != null" >
+        t_arrivaldate,
+      </if>
+      <if test="tSaleaddress != null" >
+        t_saleaddress,
+      </if>
+      <if test="tContacthuman != null" >
+        t_contacthuman,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tSaleid != null" >
+        #{tSaleid,jdbcType=VARCHAR},
+      </if>
+      <if test="tCustid != null" >
+        #{tCustid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSlmanagerid != null" >
+        #{tSlmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSaledate != null" >
+        #{tSaledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tDeliverdate != null" >
+        #{tDeliverdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tSaleaddress != null" >
+        #{tSaleaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.sale" >
+    update t_sale
+    <set >
+      <if test="tCustid != null" >
+        t_custid = #{tCustid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        t_userid = #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSlmanagerid != null" >
+        t_slmanagerid = #{tSlmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tSaledate != null" >
+        t_saledate = #{tSaledate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tDeliverdate != null" >
+        t_deliverdate = #{tDeliverdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tSaleaddress != null" >
+        t_saleaddress = #{tSaleaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        t_contacthuman = #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.sale" >
+    update t_sale
+    set t_custid = #{tCustid,jdbcType=VARCHAR},
+      t_userid = #{tUserid,jdbcType=VARCHAR},
+      t_slmanagerid = #{tSlmanagerid,jdbcType=VARCHAR},
+      t_saledate = #{tSaledate,jdbcType=TIMESTAMP},
+      t_deliverdate = #{tDeliverdate,jdbcType=TIMESTAMP},
+      t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      t_saleaddress = #{tSaleaddress,jdbcType=VARCHAR},
+      t_contacthuman = #{tContacthuman,jdbcType=VARCHAR}
+    where t_saleid = #{tSaleid,jdbcType=VARCHAR}
+  </update>
+</mapper>

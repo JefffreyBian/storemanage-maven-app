@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.purchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.purchase" >
+    <id column="t_purchaseid" property="tPurchaseid" jdbcType="VARCHAR" />
+    <result column="t_mfrid" property="tMfrid" jdbcType="VARCHAR" />
+    <result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_pcmanagerid" property="tPcmanagerid" jdbcType="VARCHAR" />
+    <result column="t_pcdate" property="tPcdate" jdbcType="TIMESTAMP" />
+    <result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    <result column="t_pcaddress" property="tPcaddress" jdbcType="VARCHAR" />
+    <result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="queryListMap" type="com.store.model.purchase" >
+    <id column="t_purchaseid" property="tPurchaseid" jdbcType="VARCHAR" />
+    <result column="t_mfrid" property="tMfrid" jdbcType="VARCHAR" />
+    <result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_pcmanagerid" property="tPcmanagerid" jdbcType="VARCHAR" />
+    <result column="t_pcdate" property="tPcdate" jdbcType="TIMESTAMP" />
+    <result column="t_arrivaldate" property="tArrivaldate" jdbcType="TIMESTAMP" />
+    <result column="t_pcaddress" property="tPcaddress" jdbcType="VARCHAR" />
+    <result column="t_contacthuman" property="tContacthuman" jdbcType="VARCHAR" />
+  	<collection property="pcdetails" ofType="com.store.model.pcdetail">
+  	<result column="t_pcdetailid" property="tPcdetailid" jdbcType="VARCHAR" />
+    <result column="t_pcdetailproid" property="tPcdetailproid" jdbcType="VARCHAR" />
+    <result column="t_purchasequt" property="tPurchasequt" jdbcType="INTEGER" />
+    <result column="t_pcdetailprice" property="tPcdetailprice" jdbcType="INTEGER" />
+    <result column="t_pcdtmanagerid" property="tPcdtmanagerid" jdbcType="VARCHAR" />
+  	<result	column="t_pcdtpurchaseid" property="tPcdtpurchaseid" jdbcType="VARCHAR"/>
+  	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_purchaseid, t_mfrid, t_userid, t_pcmanagerid, t_pcdate, t_arrivaldate, t_pcaddress, 
+    t_contacthuman
+  </sql>
+  <sql id="Base_Column_List2" >
+    u.t_purchaseid, u.t_mfrid, u.t_userid, u.t_pcmanagerid, u.t_pcdate, u.t_arrivaldate, u.t_pcaddress, 
+    u.t_contacthuman,s.t_pcdetailid, s.t_pcdetailproid, s.t_purchasequt, s.t_pcdetailprice, s.t_pcdtmanagerid,
+    s.t_pcdtpurchaseid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_purchase
+    where t_purchaseid = #{tPurchaseid,jdbcType=VARCHAR}
+  </select>
+  <select id="queryforlistByPrimaryKey" resultMap="queryListMap" parameterType="com.store.model.purchase" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_purchase u Left Join t_purchasedetail s on u.t_purchaseid=s.t_pcdtpurchaseid
+    where 1=1
+      <if test="tPurchaseid!=null">
+    and u.t_purchaseid = #{tPurchaseid,jdbcType=VARCHAR}
+    </if>
+    <if test="tUserid!=null">
+     and u.t_userid = #{tUserid,jdbcType=VARCHAR}
+    </if>
+    
+  </select>
+  <select id="queryListbytime" resultMap="queryListMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_purchase u Left Join t_purchasedetail s on u.t_purchaseid=s.t_t_pcdtpurchaseid
+    	where 1=1
+    	<if test="starttime!=null and !starttime.equals('') and endtime!=null and !endtime.equals('') "> 
+    	and u.t_pcdate &gt;=#{starttime,jdbcType=VARCHAR} and  u.t_pcdate&lt;=#{endtime,jdbcType=VARCHAR}
+    	</if>
+    	<if test="tMfrid != null" >
+        and t_mfrid = #{tMfrid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        and t_userid = #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcmanagerid != null" >
+        and t_pcmanagerid = #{tPcmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcdate != null" >
+        and t_pcdate = #{tPcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        and t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPcaddress != null" >
+        and t_pcaddress = #{tPcaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        and t_contacthuman = #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_purchase
+    where t_purchaseid = #{tPurchaseid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.purchase" >
+    insert into t_purchase (t_purchaseid, t_mfrid, t_userid, 
+      t_pcmanagerid, t_pcdate, t_arrivaldate, 
+      t_pcaddress, t_contacthuman)
+    values (#{tPurchaseid,jdbcType=VARCHAR}, #{tMfrid,jdbcType=VARCHAR}, #{tUserid,jdbcType=VARCHAR}, 
+      #{tPcmanagerid,jdbcType=VARCHAR}, #{tPcdate,jdbcType=TIMESTAMP}, #{tArrivaldate,jdbcType=TIMESTAMP}, 
+      #{tPcaddress,jdbcType=VARCHAR}, #{tContacthuman,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.purchase" >
+    insert into t_purchase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tPurchaseid != null" >
+        t_purchaseid,
+      </if>
+      <if test="tMfrid != null" >
+        t_mfrid,
+      </if>
+      <if test="tUserid != null" >
+        t_userid,
+      </if>
+      <if test="tPcmanagerid != null" >
+        t_pcmanagerid,
+      </if>
+      <if test="tPcdate != null" >
+        t_pcdate,
+      </if>
+      <if test="tArrivaldate != null" >
+        t_arrivaldate,
+      </if>
+      <if test="tPcaddress != null" >
+        t_pcaddress,
+      </if>
+      <if test="tContacthuman != null" >
+        t_contacthuman,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tPurchaseid != null" >
+        #{tPurchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="tMfrid != null" >
+        #{tMfrid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcmanagerid != null" >
+        #{tPcmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcdate != null" >
+        #{tPcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPcaddress != null" >
+        #{tPcaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.purchase" >
+    update t_purchase
+    <set >
+      <if test="tMfrid != null" >
+        t_mfrid = #{tMfrid,jdbcType=VARCHAR},
+      </if>
+      <if test="tUserid != null" >
+        t_userid = #{tUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcmanagerid != null" >
+        t_pcmanagerid = #{tPcmanagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tPcdate != null" >
+        t_pcdate = #{tPcdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tArrivaldate != null" >
+        t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tPcaddress != null" >
+        t_pcaddress = #{tPcaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tContacthuman != null" >
+        t_contacthuman = #{tContacthuman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_purchaseid = #{tPurchaseid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.purchase" >
+    update t_purchase
+    set t_mfrid = #{tMfrid,jdbcType=VARCHAR},
+      t_userid = #{tUserid,jdbcType=VARCHAR},
+      t_pcmanagerid = #{tPcmanagerid,jdbcType=VARCHAR},
+      t_pcdate = #{tPcdate,jdbcType=TIMESTAMP},
+      t_arrivaldate = #{tArrivaldate,jdbcType=TIMESTAMP},
+      t_pcaddress = #{tPcaddress,jdbcType=VARCHAR},
+      t_contacthuman = #{tContacthuman,jdbcType=VARCHAR}
+    where t_purchaseid = #{tPurchaseid,jdbcType=VARCHAR}
+  </update>
+</mapper>

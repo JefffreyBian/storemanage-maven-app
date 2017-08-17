@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.receiptMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.receipt" >
+    <id column="t_receiptid" property="tReceiptid" jdbcType="VARCHAR" />
+    <result column="t_rcpsaleid" property="tRcpsaleid" jdbcType="VARCHAR" />
+    <result column="t_rcptotal" property="tRcptotal" jdbcType="VARCHAR" />
+    <result column="t_rcptime" property="tRcptime" jdbcType="TIMESTAMP" />
+    <result column="t_rcpfinish" property="tRcpfinish" jdbcType="TIMESTAMP" />
+    <result column="t_rcpstate" property="tRcpstate" jdbcType="VARCHAR" />
+    <result column="t_rcpuserid" property="tRcpuserid" jdbcType="VARCHAR" />
+    <result column="t_rcpsureid" property="tRcpsureid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_receiptid, t_rcpsaleid, t_rcptotal, t_rcptime, t_rcpfinish, t_rcpstate, t_rcpuserid, 
+    t_rcpsureid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_receipt
+    where t_receiptid = #{tReceiptid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_receipt
+    where t_receiptid = #{tReceiptid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.receipt" >
+    insert into t_receipt (t_receiptid, t_rcpsaleid, t_rcptotal, 
+      t_rcptime, t_rcpfinish, t_rcpstate, 
+      t_rcpuserid, t_rcpsureid)
+    values (#{tReceiptid,jdbcType=VARCHAR}, #{tRcpsaleid,jdbcType=VARCHAR}, #{tRcptotal,jdbcType=VARCHAR}, 
+      #{tRcptime,jdbcType=TIMESTAMP}, #{tRcpfinish,jdbcType=TIMESTAMP}, #{tRcpstate,jdbcType=VARCHAR}, 
+      #{tRcpuserid,jdbcType=VARCHAR}, #{tRcpsureid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.receipt" >
+    insert into t_receipt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tReceiptid != null" >
+        t_receiptid,
+      </if>
+      <if test="tRcpsaleid != null" >
+        t_rcpsaleid,
+      </if>
+      <if test="tRcptotal != null" >
+        t_rcptotal,
+      </if>
+      <if test="tRcptime != null" >
+        t_rcptime,
+      </if>
+      <if test="tRcpfinish != null" >
+        t_rcpfinish,
+      </if>
+      <if test="tRcpstate != null" >
+        t_rcpstate,
+      </if>
+      <if test="tRcpuserid != null" >
+        t_rcpuserid,
+      </if>
+      <if test="tRcpsureid != null" >
+        t_rcpsureid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tReceiptid != null" >
+        #{tReceiptid,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcpsaleid != null" >
+        #{tRcpsaleid,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcptotal != null" >
+        #{tRcptotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcptime != null" >
+        #{tRcptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tRcpfinish != null" >
+        #{tRcpfinish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tRcpstate != null" >
+        #{tRcpstate,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcpuserid != null" >
+        #{tRcpuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcpsureid != null" >
+        #{tRcpsureid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.receipt" >
+    update t_receipt
+    <set >
+      <if test="tRcpsaleid != null" >
+        t_rcpsaleid = #{tRcpsaleid,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcptotal != null" >
+        t_rcptotal = #{tRcptotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcptime != null" >
+        t_rcptime = #{tRcptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tRcpfinish != null" >
+        t_rcpfinish = #{tRcpfinish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tRcpstate != null" >
+        t_rcpstate = #{tRcpstate,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcpuserid != null" >
+        t_rcpuserid = #{tRcpuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="tRcpsureid != null" >
+        t_rcpsureid = #{tRcpsureid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_receiptid = #{tReceiptid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.receipt" >
+    update t_receipt
+    set t_rcpsaleid = #{tRcpsaleid,jdbcType=VARCHAR},
+      t_rcptotal = #{tRcptotal,jdbcType=VARCHAR},
+      t_rcptime = #{tRcptime,jdbcType=TIMESTAMP},
+      t_rcpfinish = #{tRcpfinish,jdbcType=TIMESTAMP},
+      t_rcpstate = #{tRcpstate,jdbcType=VARCHAR},
+      t_rcpuserid = #{tRcpuserid,jdbcType=VARCHAR},
+      t_rcpsureid = #{tRcpsureid,jdbcType=VARCHAR}
+    where t_receiptid = #{tReceiptid,jdbcType=VARCHAR}
+  </update>
+</mapper>

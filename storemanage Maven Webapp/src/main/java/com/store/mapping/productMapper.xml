@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.productMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.product" >
+    <id column="t_proid" property="tProid" jdbcType="VARCHAR" />
+    <result column="t_proname" property="tProname" jdbcType="VARCHAR" />
+    <result column="t_protype" property="tProtype" jdbcType="VARCHAR" />
+    <result column="t_proqut" property="tProqut" jdbcType="INTEGER" />
+    <result column="t_propctotal" property="tPropctotal" jdbcType="VARCHAR" />
+    <result column="t_proprice" property="tProprice" jdbcType="INTEGER" />
+    <result column="t_promanagerid" property="tPromanagerid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_proid, t_proname, t_protype, t_proqut, t_propctotal, t_proprice, t_promanagerid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product
+    where t_proid = #{tProid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_product
+    where t_proid = #{tProid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.product" >
+    insert into t_product (t_proid, t_proname, t_protype, 
+      t_proqut, t_propctotal, t_proprice, 
+      t_promanagerid)
+    values (#{tProid,jdbcType=VARCHAR}, #{tProname,jdbcType=VARCHAR}, #{tProtype,jdbcType=VARCHAR}, 
+      #{tProqut,jdbcType=INTEGER}, #{tPropctotal,jdbcType=VARCHAR}, #{tProprice,jdbcType=INTEGER}, 
+      #{tPromanagerid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.product" >
+    insert into t_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tProid != null" >
+        t_proid,
+      </if>
+      <if test="tProname != null" >
+        t_proname,
+      </if>
+      <if test="tProtype != null" >
+        t_protype,
+      </if>
+      <if test="tProqut != null" >
+        t_proqut,
+      </if>
+      <if test="tPropctotal != null" >
+        t_propctotal,
+      </if>
+      <if test="tProprice != null" >
+        t_proprice,
+      </if>
+      <if test="tPromanagerid != null" >
+        t_promanagerid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tProid != null" >
+        #{tProid,jdbcType=VARCHAR},
+      </if>
+      <if test="tProname != null" >
+        #{tProname,jdbcType=VARCHAR},
+      </if>
+      <if test="tProtype != null" >
+        #{tProtype,jdbcType=VARCHAR},
+      </if>
+      <if test="tProqut != null" >
+        #{tProqut,jdbcType=INTEGER},
+      </if>
+      <if test="tPropctotal != null" >
+        #{tPropctotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tProprice != null" >
+        #{tProprice,jdbcType=INTEGER},
+      </if>
+      <if test="tPromanagerid != null" >
+        #{tPromanagerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.product" >
+    update t_product
+    <set >
+      <if test="tProname != null" >
+        t_proname = #{tProname,jdbcType=VARCHAR},
+      </if>
+      <if test="tProtype != null" >
+        t_protype = #{tProtype,jdbcType=VARCHAR},
+      </if>
+      <if test="tProqut != null" >
+        t_proqut = #{tProqut,jdbcType=INTEGER},
+      </if>
+      <if test="tPropctotal != null" >
+        t_propctotal = #{tPropctotal,jdbcType=VARCHAR},
+      </if>
+      <if test="tProprice != null" >
+        t_proprice = #{tProprice,jdbcType=INTEGER},
+      </if>
+      <if test="tPromanagerid != null" >
+        t_promanagerid = #{tPromanagerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_proid = #{tProid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.product" >
+    update t_product
+    set t_proname = #{tProname,jdbcType=VARCHAR},
+      t_protype = #{tProtype,jdbcType=VARCHAR},
+      t_proqut = #{tProqut,jdbcType=INTEGER},
+      t_propctotal = #{tPropctotal,jdbcType=VARCHAR},
+      t_proprice = #{tProprice,jdbcType=INTEGER},
+      t_promanagerid = #{tPromanagerid,jdbcType=VARCHAR}
+    where t_proid = #{tProid,jdbcType=VARCHAR}
+  </update>
+</mapper>

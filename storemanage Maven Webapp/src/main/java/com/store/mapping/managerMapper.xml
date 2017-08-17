@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.managerMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.manager" >
+    <id column="t_managerid" property="tManagerid" jdbcType="VARCHAR" />
+    <result column="t_managername" property="tManagername" jdbcType="VARCHAR" />
+    <result column="t_manageraddress" property="tManageraddress" jdbcType="VARCHAR" />
+    <result column="t_managermail" property="tManagermail" jdbcType="VARCHAR" />
+    <result column="t_manageraccount" property="tManageraccount" jdbcType="VARCHAR" />
+    <result column="t_managerpw" property="tManagerpw" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="queryListMap" type="com.store.model.manager" >
+    <id column="t_managerid" property="tManagerid" jdbcType="VARCHAR" />
+    <result column="t_managername" property="tManagername" jdbcType="VARCHAR" />
+    <result column="t_manageraddress" property="tManageraddress" jdbcType="VARCHAR" />
+    <result column="t_managermail" property="tManagermail" jdbcType="VARCHAR" />
+    <result column="t_manageraccount" property="tManageraccount" jdbcType="VARCHAR" />
+    <result column="t_managerpw" property="tManagerpw" jdbcType="VARCHAR" />
+    <collection property="users" ofType="com.store.model.user">
+    <result column="t_userid" property="tUserid" jdbcType="VARCHAR" />
+    <result column="t_username" property="tUsername" jdbcType="VARCHAR" />
+    <result column="t_usefirm" property="tUsefirm" jdbcType="VARCHAR" />
+    <result column="t_usermail" property="tUsermail" jdbcType="VARCHAR" />
+    <result column="t_useraccount" property="tUseraccount" jdbcType="VARCHAR" />
+    <result column="t_userpw" property="tUserpw" jdbcType="VARCHAR" />
+    <result column="t_userjob" property="tUserjob" jdbcType="VARCHAR" />
+    <result column="t_userphone" property="tUserphone" jdbcType="VARCHAR" />
+    <result column="t_usermanager" property="tUsermanager" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="mfrs" ofType="com.store.model.mfr">
+    <result column="t_mfrid" property="tMfrid" jdbcType="VARCHAR" />
+    <result column="t_mfrname" property="tMfrname" jdbcType="VARCHAR" />
+    <result column="t_mfraddress" property="tMfraddress" jdbcType="VARCHAR" />
+    <result column="t_mfrmanagerid" property="tMfrmanagerid" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="customers" ofType="com.store.model.customer">
+    <result column="t_customerid" property="tCustomerid" jdbcType="VARCHAR" />
+    <result column="t_customername" property="tCustomername" jdbcType="VARCHAR" />
+    <result column="t_customeraddress" property="tCustomeraddress" jdbcType="VARCHAR" />
+    <result column="t_managerid" property="tManagerid" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_managerid, t_managername, t_manageraddress, t_managermail, t_manageraccount, t_managerpw
+  </sql>
+  <sql id="Base_Column_List2" >
+    u.t_managerid, u.t_managername, u.t_manageraddress, u.t_managermail, u.t_manageraccount, u.t_managerpw,a.t_userid, a.t_username, a.t_usefirm, a.t_usermail, a.t_useraccount, a.t_userpw, a.t_userjob, a.t_userphone, a.t_usermanager,
+    s.t_mfrid, s.t_mfrname, s.t_mfraddress, s.t_mfrmanagerid,e.t_customerid, e.t_customername, e.t_customeraddress, e.t_managerid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_manager
+    where t_managerid = #{tManagerid,jdbcType=VARCHAR}
+  </select>
+  <select id="LoginCheckByPrimaryKey" resultMap="BaseResultMap" parameterType="com.store.model.manager" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_manager where and t_manageraccount=#{tManageraccount,jdbcType=VARCHAR} and t_managerpw=#{tManagerpw,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="queryforlistByPrimaryKey" resultMap="queryListMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List2" />
+    from t_manager u Left Join t_mfr s on u.t_managerid=s.t_mfrmanagerid Left Join t_customer e on u.t_managerid=e.t_managerid Left Join t_user a on u.t_managerid=a.t_usermanager 
+    where u.t_managerid = #{tManagerid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_manager
+    where t_managerid = #{tManagerid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.manager" >
+    insert into t_manager (t_managerid, t_managername, t_manageraddress, 
+      t_managermail, t_manageraccount, t_managerpw
+      )
+    values (#{tManagerid,jdbcType=VARCHAR}, #{tManagername,jdbcType=VARCHAR}, #{tManageraddress,jdbcType=VARCHAR}, 
+      #{tManagermail,jdbcType=VARCHAR}, #{tManageraccount,jdbcType=VARCHAR}, #{tManagerpw,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.manager" >
+    insert into t_manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tManagerid != null" >
+        t_managerid,
+      </if>
+      <if test="tManagername != null" >
+        t_managername,
+      </if>
+      <if test="tManageraddress != null" >
+        t_manageraddress,
+      </if>
+      <if test="tManagermail != null" >
+        t_managermail,
+      </if>
+      <if test="tManageraccount != null" >
+        t_manageraccount,
+      </if>
+      <if test="tManagerpw != null" >
+        t_managerpw,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tManagerid != null" >
+        #{tManagerid,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagername != null" >
+        #{tManagername,jdbcType=VARCHAR},
+      </if>
+      <if test="tManageraddress != null" >
+        #{tManageraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagermail != null" >
+        #{tManagermail,jdbcType=VARCHAR},
+      </if>
+      <if test="tManageraccount != null" >
+        #{tManageraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagerpw != null" >
+        #{tManagerpw,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.manager" >
+    update t_manager
+    <set >
+      <if test="tManagername != null" >
+        t_managername = #{tManagername,jdbcType=VARCHAR},
+      </if>
+      <if test="tManageraddress != null" >
+        t_manageraddress = #{tManageraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagermail != null" >
+        t_managermail = #{tManagermail,jdbcType=VARCHAR},
+      </if>
+      <if test="tManageraccount != null" >
+        t_manageraccount = #{tManageraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tManagerpw != null" >
+        t_managerpw = #{tManagerpw,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_managerid = #{tManagerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.manager" >
+    update t_manager
+    set t_managername = #{tManagername,jdbcType=VARCHAR},
+      t_manageraddress = #{tManageraddress,jdbcType=VARCHAR},
+      t_managermail = #{tManagermail,jdbcType=VARCHAR},
+      t_manageraccount = #{tManageraccount,jdbcType=VARCHAR},
+      t_managerpw = #{tManagerpw,jdbcType=VARCHAR}
+    where t_managerid = #{tManagerid,jdbcType=VARCHAR}
+  </update>
+</mapper>
